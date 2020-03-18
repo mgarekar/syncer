@@ -1,0 +1,5 @@
+aws s3 sync 
+
+#aws s3 sync s3://cloud-data/ /Users/manavgarekar/Documents/cloud-data/ --profile priv-acc
+or
+#aws s3 sync /Users/manavgarekar/Documents/cloud-data/ s3://cloud-data/  --profile priv-acc
