@@ -9,7 +9,9 @@ def parse_args():
     parser.add_argument("upload_download",help='direction of sync, Enter upload or Download')
     parser.add_argument("--bucket",help='bucket, default is cloud-data',default='cloud-data')
     parser.add_argument("--path",help=' directory for sync',default='~/Documents/cloud-data/')
+    parser.add_argument("env",help=' upload source, Valid Values are home, work')
     args=parser.parse_args()
+    
 
     print ('\tregion ||||| is {}'.format(args.region).upper())
     print ('\tsync bucket is {}'.format(args.bucket).upper())
@@ -27,8 +29,15 @@ def parse_args():
     if (input('\tare you sure? y or n\n'.upper() ) != 'Y'):
         print ('cancelling')
         sys.exit()
+    if (args.env != 'work' and args.env != 'home'):
+        print ('arguments are not home or work')
+        sys.exit()
+    returned_args={}
+    returned_args['cmd']=cmd
+    returned_args['env']=args.env
+    returned_args['path']=args.path
 
-    return cmd
+    return returned_args
 
 def sync(cmd):
     ''' actual code to push/pull data, ask for confirmation visually'''
@@ -45,6 +54,13 @@ def run_command(cmd,debug=True):
         print('stderr is \n{}'.format(stderr))
         print('stdout is \n{}'.format(stdout))
 
-cmd=parse_args()
-sync(cmd)
+def create_file_marker(path,envron):
+    '''Create/re-writes a file at path that identifies the environment. Does not return anuthing, but the contents of the file after creation '''
+    print (path)
+    print (envron)
+    pass
+args=parse_args()
+# print (args)
+create_file_marker(args['path'],args['env'])
+sync(args['cmd'])
 
